@@ -7,19 +7,23 @@ export interface Props<T, U = T, V extends EmptyProps = EmptyProps>
   className?: string;
   EmptyComponent?: ComponentType<V>;
   EmptyProps?: V;
+  hasEmpty?: boolean;
 }
 
 function BList<T, U = T, V extends EmptyProps = EmptyProps>({
   className,
   EmptyComponent = Empty,
   EmptyProps,
+  hasEmpty = true,
   rows,
   ...other
 }: Props<T, U, V>) {
   return (
     <div className={className}>
       <ListRows rows={rows} {...other} />
-      <EmptyComponent {...(EmptyProps as V)} />
+      {hasEmpty && rows.length === 0 && (
+        <EmptyComponent {...(EmptyProps as V)} />
+      )}
     </div>
   );
 }
