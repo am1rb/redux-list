@@ -1,0 +1,102 @@
+Arguments: 
+  /usr/local/bin/node /usr/share/yarn/bin/yarn.js add dot-object --save-dev
+
+PATH: 
+  /home/amirb/bin:/home/amirb/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/amirb/.dotnet/tools
+
+Yarn version: 
+  1.10.1
+
+Node version: 
+  10.15.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@testing-library%2fjest-dom: ETIMEDOUT
+      at Timeout._onTimeout (/usr/share/yarn/lib/cli.js:120826:19)
+      at ontimeout (timers.js:436:11)
+      at tryOnTimeout (timers.js:300:5)
+      at listOnTimeout (timers.js:263:5)
+      at Timer.processTimers (timers.js:223:10)
+
+npm manifest: 
+  {
+    "name": "@react-lazy-dev/redux-list",
+    "version": "1.0.0",
+    "description": "A redux list structure and utils",
+    "main": "dist/index.js",
+    "module": "dist/index.es.js",
+    "typings": "dist/index.d.ts",
+    "files": [
+      "dist"
+    ],
+    "publishConfig": {
+      "access": "public"
+    },
+    "scripts": {
+      "start": "rollup -c -w",
+      "build": "rollup -c",
+      "test": "jest",
+      "test:watch": "jest --watch"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/am1rb/redux-list.git"
+    },
+    "keywords": [
+      "redux",
+      "react"
+    ],
+    "author": "Pejman Nikram <pejman@gmail.com>, Amir Beshkar <amir.beshkar@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+      "url": "https://github.com/am1rb/redux-list/issues"
+    },
+    "homepage": "https://github.com/am1rb/redux-list#readme",
+    "devDependencies": {
+      "@testing-library/jest-dom": "^4.2.3",
+      "@testing-library/react": "^9.3.2",
+      "@types/history": "^4.7.3",
+      "@types/jest": "^24.0.22",
+      "@types/react": "^16.9.11",
+      "@types/react-dom": "^16.9.3",
+      "@types/react-redux": "^7.1.5",
+      "@typescript-eslint/eslint-plugin": "^2.6.0",
+      "@typescript-eslint/parser": "^2.6.0",
+      "eslint": "^6.6.0",
+      "eslint-config-airbnb": "^18.0.1",
+      "eslint-config-prettier": "^6.5.0",
+      "eslint-import-resolver-typescript": "^2.0.0",
+      "eslint-plugin-import": "^2.18.2",
+      "eslint-plugin-import-helpers": "^1.0.2",
+      "eslint-plugin-jest": "^23.0.2",
+      "eslint-plugin-jsx-a11y": "^6.2.3",
+      "eslint-plugin-prettier": "^3.1.1",
+      "eslint-plugin-react": "^7.16.0",
+      "eslint-plugin-react-hooks": "^2.2.0",
+      "history": "^4.10.1",
+      "jest": "^24.9.0",
+      "lint-staged": "^9.4.2",
+      "prettier": "^1.18.2",
+      "react": "^16.11.0",
+      "react-redux": "^7.1.1",
+      "rollup": "^1.26.0",
+      "rollup-plugin-babel": "^4.3.3",
+      "rollup-plugin-commonjs": "^10.1.0",
+      "rollup-plugin-node-resolve": "^5.2.0",
+      "rollup-plugin-peer-deps-external": "^2.2.0",
+      "rollup-plugin-terser": "^5.1.2",
+      "rollup-plugin-typescript2": "^0.24.3",
+      "rollup-plugin-url": "^3.0.0",
+      "ts-jest": "^24.1.0",
+      "typescript": "^3.7.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
