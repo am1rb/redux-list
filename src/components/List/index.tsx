@@ -5,7 +5,7 @@ import Empty, { Props as EmptyProps } from "../Empty";
 export interface Props<T, U = T, V extends EmptyProps = EmptyProps>
   extends ListRowsProps<T, U> {
   className?: string;
-  ContainerComponent?: ComponentType<{ className?: string }> | ElementType;
+  Container?: ComponentType<{ className?: string; children: ReactNode }> | ElementType;
   EmptyComponent?: ComponentType<V>;
   EmptyProps?: V;
   hasEmpty?: boolean;
@@ -15,7 +15,7 @@ export interface Props<T, U = T, V extends EmptyProps = EmptyProps>
 
 function BList<T, U = T, V extends EmptyProps = EmptyProps>({
   className,
-  ContainerComponent = 'div',
+  Container = 'div',
   EmptyComponent = Empty,
   EmptyProps,
   hasEmpty = true,
@@ -25,14 +25,14 @@ function BList<T, U = T, V extends EmptyProps = EmptyProps>({
   ...other
 }: Props<T, U, V>) {
   return (
-    <ContainerComponent data-testid="root" className={className}>
+    <Container data-testid="root" className={className}>
       {firstChild}
       <ListRows rows={rows} {...other} />
       {hasEmpty && rows.length === 0 && (
         <EmptyComponent data-testid="empty-component" {...(EmptyProps as V)} />
       )}
       {lastChild}
-    </ContainerComponent>
+    </Container>
   );
 }
 
