@@ -17,13 +17,15 @@ function BListRows<T, U = T>({
   return (
     <>
       {rows.map(row => {
-        const key = dot.pick(dataKey, row);
-
-        if (typeof key !== "string" && typeof key !== "number") {
-          throw new Error("The dataKey does not exist");
-        }
-
         const rowProps = RowProps ? RowProps(row) : row;
+        const key = dot.pick(dataKey, rowProps);
+
+        if(key===undefined) {
+          throw new Error("The `"+ dataKey +"` property does not exist");
+        } else if (typeof key !== "string" && typeof key !== "number") {
+          throw new Error("The type of `"+ dataKey +"` property must be string or number");
+        }
+        
         return (
           <RowComponent
             key={(key as unknown) as Key}
