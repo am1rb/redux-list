@@ -25,7 +25,7 @@ function BList<T, U = T, V extends EmptyProps = EmptyProps>({
   ...other
 }: Props<T, U, V>) {
   return (
-    <ContainerComponent className={className}>
+    <ContainerComponent data-testid="root" className={className}>
       {firstChild}
       <ListRows rows={rows} {...other} />
       {hasEmpty && rows.length === 0 && (

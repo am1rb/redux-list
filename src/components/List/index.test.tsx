@@ -10,9 +10,9 @@ interface TestRowProps {
 
 function TestRow({ id, label }: TestRowProps) {
   return (
-    <>
+    <div>
       {id} - {label}
-    </>
+    </div>
   );
 }
 
@@ -57,4 +57,12 @@ describe("The List component tests", () => {
     );
     expect(queryByTestId("empty-component")).toBeNull();
   });
+
+  test("It should render firstChild and lastChild at correct positions", () => {
+    const firstChild = <span data-testid="first-child" />
+    const lastChild = <span data-testid="last-child" />
+    const { getByTestId } = render(<List {...sharedProps} firstChild={firstChild} lastChild={lastChild} />);
+    expect(getByTestId("root").firstChild).toBe(getByTestId("first-child"));
+    expect(getByTestId("root").lastChild).toBe(getByTestId("last-child"));
+  })
 });
