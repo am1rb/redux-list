@@ -1,4 +1,5 @@
 import React, { memo, ComponentType, Key } from "react";
+import dot from "dot-object";
 
 export interface Props<T, U = T> {
   rows: T[];
@@ -16,17 +17,18 @@ function BListRows<T, U = T>({
   return (
     <>
       {rows.map(row => {
-        // const key = dot.pick(dataKey, row); // dot-object
-        const key = row[dataKey];
-
-        if (typeof key !== "string" && typeof key !== "number") {
-          throw new Error("Invalid row key");
-        }
-
         const rowProps = RowProps ? RowProps(row) : row;
+        const key = dot.pick(dataKey, rowProps);
+
+        if(key===undefined) {
+          throw new Error("The `"+ dataKey +"` property does not exist");
+        } else if (typeof key !== "string" && typeof key !== "number") {
+          throw new Error("The type of `"+ dataKey +"` property must be string or number");
+        }
+        
         return (
           <RowComponent
-            key={(row[dataKey] as unknown) as Key}
+            key={(key as unknown) as Key}
             {...(rowProps as U)}
           />
         );
