@@ -1,21 +1,30 @@
 import React, { ComponentType, memo, ReactNode, ElementType } from "react";
 import ListRows, { Props as ListRowsProps } from "../ListRows";
-import Empty, { Props as EmptyProps } from "../Empty";
+import Empty, { Props as EmptyComponentProps } from "../Empty";
 
-export interface Props<T, U = T, V extends EmptyProps = EmptyProps>
-  extends ListRowsProps<T, U> {
+export interface Props<
+  DataProps,
+  RowProps = DataProps,
+  EmptyProps extends EmptyComponentProps = EmptyComponentProps
+> extends ListRowsProps<DataProps, RowProps> {
   className?: string;
-  Container?: ComponentType<{ className?: string; children: ReactNode }> | ElementType;
-  EmptyComponent?: ComponentType<V>;
-  EmptyProps?: V;
+  Container?:
+    | ComponentType<{ className?: string; children: ReactNode }>
+    | ElementType;
+  EmptyComponent?: ComponentType<EmptyProps>;
+  EmptyProps?: EmptyProps;
   hasEmpty?: boolean;
   firstChild?: ReactNode;
   lastChild?: ReactNode;
 }
 
-function BList<T, U = T, V extends EmptyProps = EmptyProps>({
+function BList<
+  DataProps,
+  RowProps = DataProps,
+  EmptyProps extends EmptyComponentProps = EmptyComponentProps
+>({
   className,
-  Container = 'div',
+  Container = "div",
   EmptyComponent = Empty,
   EmptyProps,
   hasEmpty = true,
@@ -23,13 +32,16 @@ function BList<T, U = T, V extends EmptyProps = EmptyProps>({
   lastChild,
   rows,
   ...other
-}: Props<T, U, V>) {
+}: Props<DataProps, RowProps, EmptyProps>) {
   return (
     <Container data-testid="root" className={className}>
       {firstChild}
       <ListRows rows={rows} {...other} />
       {hasEmpty && rows.length === 0 && (
-        <EmptyComponent data-testid="empty-component" {...(EmptyProps as V)} />
+        <EmptyComponent
+          data-testid="empty-component"
+          {...(EmptyProps as EmptyProps)}
+        />
       )}
       {lastChild}
     </Container>
@@ -38,8 +50,10 @@ function BList<T, U = T, V extends EmptyProps = EmptyProps>({
 
 const OList = memo(BList);
 
-export default function List<T, U = T, V extends EmptyProps = EmptyProps>(
-  props: Props<T, U, V>
-) {
+export default function List<
+  DataProps,
+  RowProps = DataProps,
+  EmptyProps extends EmptyComponentProps = EmptyComponentProps
+>(props: Props<DataProps, RowProps, EmptyProps>) {
   return <OList {...props} />;
 }
