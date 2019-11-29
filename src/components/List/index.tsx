@@ -1,11 +1,11 @@
 import React, { ComponentType, memo, ReactNode, ElementType } from "react";
 import ListRows, { Props as ListRowsProps } from "../ListRows";
-import Empty, { Props as EmptyComponentProps } from "../Empty";
+import Empty, { Props as BaseEmptyProps } from "../Empty";
 
 export interface Props<
   DataProps,
   RowProps = DataProps,
-  EmptyProps extends EmptyComponentProps = EmptyComponentProps
+  EmptyProps extends BaseEmptyProps = BaseEmptyProps
 > extends ListRowsProps<DataProps, RowProps> {
   className?: string;
   Container?:
@@ -21,7 +21,7 @@ export interface Props<
 function BList<
   DataProps,
   RowProps = DataProps,
-  EmptyProps extends EmptyComponentProps = EmptyComponentProps
+  EmptyProps extends BaseEmptyProps = BaseEmptyProps
 >({
   className,
   Container = "div",
@@ -53,7 +53,7 @@ const OList = memo(BList);
 export default function List<
   DataProps,
   RowProps = DataProps,
-  EmptyProps extends EmptyComponentProps = EmptyComponentProps
+  EmptyProps extends BaseEmptyProps = BaseEmptyProps
 >(props: Props<DataProps, RowProps, EmptyProps>) {
   return <OList {...props} />;
 }
