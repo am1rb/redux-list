@@ -1,36 +1,35 @@
 import React, { memo, ComponentType, Key } from "react";
 import dot from "dot-object";
 
-export interface Props<T, U = T> {
-  rows: T[];
-  RowComponent: ComponentType<U>;
-  RowProps?: (row: T) => U;
+export interface Props<DataProps, RowProps = DataProps> {
+  rows: DataProps[];
+  RowComponent: ComponentType<RowProps>;
+  RowProps?: (row: DataProps) => RowProps;
   dataKey?: string;
 }
 
-function BListRows<T, U = T>({
+function BListRows<DataProps, RowProps = DataProps>({
   rows,
   RowComponent,
   RowProps,
   dataKey = "id"
-}: Props<T, U>) {
+}: Props<DataProps, RowProps>) {
   return (
     <>
       {rows.map(row => {
         const rowProps = RowProps ? RowProps(row) : row;
         const key = dot.pick(dataKey, rowProps);
 
-        if(key===undefined) {
-          throw new Error("The `"+ dataKey +"` property does not exist");
+        if (key === undefined) {
+          throw new Error("The `" + dataKey + "` property does not exist");
         } else if (typeof key !== "string" && typeof key !== "number") {
-          throw new Error("The type of `"+ dataKey +"` property must be string or number");
+          throw new Error(
+            "The type of `" + dataKey + "` property must be string or number"
+          );
         }
-        
+
         return (
-          <RowComponent
-            key={(key as unknown) as Key}
-            {...(rowProps as U)}
-          />
+          <RowComponent key={(key as unknown) as Key} {...(rowProps as RowProps)} />
         );
       })}
     </>
@@ -38,6 +37,8 @@ function BListRows<T, U = T>({
 }
 
 const OListRows = memo(BListRows);
-export default function ListRows<T, U = T>(props: Props<T, U>) {
+export default function ListRows<DataProps, RowProps = DataProps>(
+  props: Props<DataProps, RowProps>
+) {
   return <OListRows {...props} />;
 }
