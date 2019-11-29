@@ -8,9 +8,7 @@ export interface Props<
   EmptyProps extends BaseEmptyProps = BaseEmptyProps
 > extends ListRowsProps<DataProps, RowProps> {
   className?: string;
-  Container?:
-    | ComponentType<{ className?: string; children: ReactNode }>
-    | ElementType;
+  Container?: ElementType<{ className?: string; children: ReactNode }>;
   EmptyComponent?: ComponentType<EmptyProps>;
   EmptyProps?: EmptyProps;
   hasEmpty?: boolean;
