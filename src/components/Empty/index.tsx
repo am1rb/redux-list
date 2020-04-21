@@ -4,8 +4,8 @@ export interface Props {
   className?: string;
 }
 
-function Empty({ className }: Props) {
-  return <div className={className}>There is no data</div>;
+function Empty({ className, ...other }: Props) {
+  return <div className={className} { ...other}>No data is listed here</div>;
 }
 
 export default memo(Empty);

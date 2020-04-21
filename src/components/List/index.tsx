@@ -1,43 +1,49 @@
-import React, { ComponentType, memo, ReactNode } from "react";
+import React, { ComponentType, memo, ReactNode, ElementType } from "react";
 import ListRows, { Props as ListRowsProps } from "../ListRows";
-import Empty, { Props as EmptyProps } from "../Empty";
+import Empty, { Props as BaseEmptyProps } from "../Empty";
 
-export interface Props<T, U = T, V extends EmptyProps = EmptyProps>
-  extends ListRowsProps<T, U> {
+export interface Props<
+  DataProps,
+  RowProps = DataProps,
+> extends ListRowsProps<DataProps, RowProps> {
   className?: string;
-  EmptyComponent?: ComponentType<V>;
-  EmptyProps?: V;
+  Container?: ElementType<{ className?: string; children: ReactNode }>;
+  EmptyComponent?: ComponentType<BaseEmptyProps>;
   hasEmpty?: boolean;
-  firstChild?: ReactNode;
-  lastChild?: ReactNode;
+  beforeRows?: ReactNode;
+  afterRows?: ReactNode;
 }
 
-function BList<T, U = T, V extends EmptyProps = EmptyProps>({
+function BList<
+  DataProps,
+  RowProps = DataProps,
+>({
   className,
+  Container = "div",
   EmptyComponent = Empty,
-  EmptyProps,
   hasEmpty = true,
-  firstChild,
-  lastChild,
+  beforeRows,
+  afterRows,
   rows,
   ...other
-}: Props<T, U, V>) {
+}: Props<DataProps, RowProps>) {
   return (
-    <div className={className}>
-      {firstChild}
+    <Container data-testid="root" className={className}>
+      {beforeRows}
       <ListRows rows={rows} {...other} />
       {hasEmpty && rows.length === 0 && (
-        <EmptyComponent {...(EmptyProps as V)} />
+        <EmptyComponent data-testid="empty-component" />
       )}
-      {lastChild}
-    </div>
+      {afterRows}
+    </Container>
   );
 }
 
 const OList = memo(BList);
 
-export default function List<T, U = T, V extends EmptyProps = EmptyProps>(
-  props: Props<T, U, V>
-) {
+export default function List<
+  DataProps,
+  RowProps = DataProps,
+>(props: Props<DataProps, RowProps>) {
   return <OList {...props} />;
 }
