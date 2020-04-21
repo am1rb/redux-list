@@ -1,35 +1,35 @@
 import React, { memo, ComponentType, Key } from "react";
-import dot from "dot-object";
 
 export interface Props<DataProps, RowProps = DataProps> {
   rows: DataProps[];
   RowComponent: ComponentType<RowProps>;
-  RowProps?: (row: DataProps) => RowProps;
-  dataKey?: string;
+  RowProps?: Partial<RowProps> | ((row: DataProps) => RowProps);
+  rowKey: (row: DataProps) => Key;
 }
 
 function BListRows<DataProps, RowProps = DataProps>({
   rows,
   RowComponent,
   RowProps,
-  dataKey = "id"
+  rowKey,
 }: Props<DataProps, RowProps>) {
   return (
     <>
       {rows.map(row => {
-        const rowProps = RowProps ? RowProps(row) : row;
-        const key = dot.pick(dataKey, rowProps);
-
+        const key = rowKey(row);
+        
         if (key === undefined) {
-          throw new Error("The `" + dataKey + "` property does not exist");
+          throw new Error("The rowKey returns undefined value as key");
         } else if (typeof key !== "string" && typeof key !== "number") {
           throw new Error(
-            "The type of `" + dataKey + "` property must be string or number"
+            "The rowKey must returns an string or number"
           );
         }
 
+        const rowProps = RowProps ? ( typeof RowProps==="function" ? RowProps(row) : {...row, ...RowProps}) : row;
+
         return (
-          <RowComponent key={(key as unknown) as Key} {...(rowProps as RowProps)} />
+          <RowComponent {...(rowProps as RowProps)} key={key} />
         );
       })}
     </>

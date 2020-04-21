@@ -24,23 +24,23 @@ const sharedProps: ListRowsProps<TestRowProps> = {
     { person: { code: 11 }, name: "Sara", family: "Doe", id: 11 },
     { person: { code: 12 }, name: "John", family: "Doe", id: 12 }
   ],
-  dataKey: "person.code"
+  rowKey: (row) => row.person.code,
 };
 
 const originalError = console.error;
 afterEach(() => (console.error = originalError));
 
 describe("The ListRows component tests", () => {
-  test("It should throw an Error if the dataKey does not exist", () => {
+  it("Should throw an Error if the rowKey returns invalid key", () => {
     console.error = jest.fn();
     try {
-      render(<ListRows {...sharedProps} dataKey="invalid.key" />);
+      render(<ListRows {...sharedProps} rowKey={row => row['invalid.key']} />);
     } catch (e) {
-      expect(e.message).toBe("The `invalid.key` property does not exist");
+      expect(e.message).toBe("The rowKey returns undefined value as key");
     }
   });
 
-  test("It should throw an Error if the type of dataKey property is not number or string", () => {
+  it("Should throw an Error if rowKey props does not return a number or string", () => {
     const keys = [
       { key: 11, error: false },
       { key: "11", error: false },
@@ -58,20 +58,20 @@ describe("The ListRows component tests", () => {
         render(
           <ListRows
             {...sharedProps}
-            RowProps={row => ({ ...row, id: record.key })}
-            dataKey="id"
+            rows={[{...sharedProps.rows[0], id: record.key}]}
+            rowKey={row => row.id as React.Key}
           />
         );
       } catch (e) {
         hasError =
-          e.message === "The type of `id` property must be string or number";
+          e.message === "The rowKey must returns an string or number";
       }
 
       expect(hasError).toBe(record.error);
     });
   });
 
-  test("It should render rows correctly", () => {
+  it("Should render rows correctly", () => {
     const { queryByText } = render(<ListRows {...sharedProps} />);
     expect(queryByText("11 - Sara Doe")).toBeInTheDocument();
     expect(queryByText("12 - John Doe")).toBeInTheDocument();

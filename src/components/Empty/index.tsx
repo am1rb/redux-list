@@ -5,7 +5,7 @@ export interface Props {
 }
 
 function Empty({ className, ...other }: Props) {
-  return <div className={className} { ...other}>There is no data</div>;
+  return <div className={className} { ...other}>No data is listed here</div>;
 }
 
 export default memo(Empty);
