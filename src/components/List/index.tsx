@@ -10,8 +10,8 @@ export interface Props<
   Container?: ElementType<{ className?: string; children: ReactNode }>;
   EmptyComponent?: ComponentType<BaseEmptyProps>;
   hasEmpty?: boolean;
-  firstChild?: ReactNode;
-  lastChild?: ReactNode;
+  beforeRows?: ReactNode;
+  afterRows?: ReactNode;
 }
 
 function BList<
@@ -22,19 +22,19 @@ function BList<
   Container = "div",
   EmptyComponent = Empty,
   hasEmpty = true,
-  firstChild,
-  lastChild,
+  beforeRows,
+  afterRows,
   rows,
   ...other
 }: Props<DataProps, RowProps>) {
   return (
     <Container data-testid="root" className={className}>
-      {firstChild}
+      {beforeRows}
       <ListRows rows={rows} {...other} />
       {hasEmpty && rows.length === 0 && (
         <EmptyComponent data-testid="empty-component" />
       )}
-      {lastChild}
+      {afterRows}
     </Container>
   );
 }

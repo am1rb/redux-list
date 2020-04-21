@@ -58,14 +58,14 @@ describe("The List component tests", () => {
     expect(queryByTestId("empty-component")).toBeNull();
   });
 
-  it("Should render firstChild and lastChild at correct positions", () => {
-    const firstChild = <span data-testid="first-child" />;
-    const lastChild = <span data-testid="last-child" />;
+  it("Should render beforeRows and afterRows at correct positions", () => {
+    const beforeRows = <span data-testid="before-rows" />;
+    const afterRows = <span data-testid="after-rows" />;
     const { getByTestId } = render(
-      <List {...sharedProps} firstChild={firstChild} lastChild={lastChild} />
+      <List {...sharedProps} beforeRows={beforeRows} afterRows={afterRows} />
     );
-    expect(getByTestId("root").firstChild).toBe(getByTestId("first-child"));
-    expect(getByTestId("root").lastChild).toBe(getByTestId("last-child"));
+    expect(getByTestId("root").firstChild).toBe(getByTestId("before-rows"));
+    expect(getByTestId("root").lastChild).toBe(getByTestId("after-rows"));
   });
 
   it("Should render custom container", () => {
